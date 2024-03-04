@@ -1,0 +1,38 @@
+//this is a comment
+
+//*****************************************************************************************
+// File: inforScan.l
+// Purpose: SORT THROUGH STUDENTS C CODE FOR PLAGARISM BY TOKENIZING THEIR CODE THAT IS OFTEN 
+// CHANGED TO HIDE THEIR PLAGARISM
+// build instructions
+// flex infoScanner.l
+// g++ -o infoScanner lex.yy.x
+// ./infoScanner < data_file.txt
+// ****************************************************************************************
+
+/*Pre - num contains an address of a memory cell where the results are stored
+	Post - The function stores the result in the cell that is pointed to by num
+	*/
+
+#include <iostream>
+
+void get_data(int *requested);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

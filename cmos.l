@@ -13,6 +13,7 @@
 //declarations
 
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 
@@ -22,6 +23,7 @@ using namespace std;
 #define TKTYPE 4
 #define TKVAL 5
 #define TKCOMMENT 6
+#define TKINCLUDE 7
 #define TKIGNORE 255
 
 
@@ -46,14 +48,14 @@ int line_num(){
 
 D [0-9] //digit
 A [a-zA-Z] //english alphabet
-T ["int"|"char"|"float"|"double"|"void"|"bool"|"string"]
+T int|char|float|double|void|bool|string
 
 
 %%
 
 _[{A}{D}]                   {    return TKVARNAME;  }
 
-[{A}+][{D}]                   {    return TKVARNAME;  }
+[a-zA-Z0-9]+[ \n]*;         {    return TKVARNAME;  }
 
 [{D}]               {    return TKVAL;  }
 
@@ -61,15 +63,17 @@ _[{A}{D}]                   {    return TKVARNAME;  }
 
 "//"(.*)           {    return TKCOMMENT;  }
 
-"/*"(.*)"*/"      {    return TKCOMMENT;  }
+"/*"([^*]|\*+[^*/])*\*+"/"     {    return TKCOMMENT;  }
 
 {T}               {    return TKTYPE;  } 
 
 [ \t\n\f]					{    Addline(yytext[0]);   } 
 
-[{A}+]" "[{A}+]"("(.*)")"";"      {return TKFUNCTION;} //function call
+[a-zA-Z]+[ \n][a-zA-Z_]+[(](.*)[)][;]      {  return TKFUNCTION;} //function call
 
+[a-zA-Z]+[ \n][a-zA-Z_]+[ \n]*+[(](.*)[)][ \n]*[{]       { return TKFUNCTION; }
 
+"#"(.*)           { return TKINCLUDE; }
 
 .							{ 	//unmatched
                 return TKIGNORE;
@@ -83,31 +87,32 @@ int yywrap(){
 
 int main() {
 
-
+  ofstream outFile;
+  outFile.open("token.txt");
   int token = 0;
   token = yylex();
   while(token){
     switch (token) {
       case TKIGNORE:
-        cout << "you missed something buddy" << endl;
+        //outFile << yytext;
         break;
       case TKVARNAME:
-        cout << "TKVARNAME";
+        outFile << "TKVARNAME";
         break;
       case TKSTRINGVAL:
-        cout << "TKSTRINGVAL";
+        outFile << "TKSTRINGVAL";
         break;
       case TKTYPE:
-        cout << "TKTYPE";
+        outFile << "TKTYPE";
         break;
       case TKFUNCTION:
-        cout << "TKFUNCTION";
+        outFile << "TKFUNCTION";
         break;
       case TKVAL:
-        cout << "TKVAL";
+        outFile << "TKVAL";
         break;
 }
-
     token = yylex();
   }
+outFile.close();
 }	
