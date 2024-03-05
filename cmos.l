@@ -24,6 +24,9 @@ using namespace std;
 #define TKVAL 5
 #define TKCOMMENT 6
 #define TKINCLUDE 7
+#define TKLOOP 8
+#define TKIF 9
+#define TKELSE 10
 #define TKIGNORE 255
 
 
@@ -48,16 +51,30 @@ int line_num(){
 
 D [0-9] //digit
 A [a-zA-Z] //english alphabet
-T int|char|float|double|void|bool|string
+T int|char|float|double|void|bool|string 
 
 
 %%
 
+if[ \n]*[(]             {return TKIF;}
+
+else[ ]if[ ]*[(]           {return TKELSE;}
+
+[a-zA-Z]+[ \n][a-zA-Z_]+[(]      {  return TKFUNCTION;} //function empty declarations
+
+[a-zA-Z_]+[ \n]*[(]                   {return TKFUNCTION; } //function call
+
+[while|for|do]+[ \n][(]             { return TKLOOP;  }
+
+{T}[ \t\n\f]                {    return TKTYPE;  } 
+
+[0-9][;]            {    return TKVAL;  }
+
+["|']([^"\n]|\\(.|\n))*["|']    { return TKVAL; }
+
 _[{A}{D}]                   {    return TKVARNAME;  }
 
-[a-zA-Z0-9]+[ \n]*;         {    return TKVARNAME;  }
-
-[{D}]               {    return TKVAL;  }
+[a-zA-Z0-9]+[ \n]*         {    return TKVARNAME;  }
 
 [{D}].[{D}]          {    return TKVAL;  }  
 
@@ -65,13 +82,7 @@ _[{A}{D}]                   {    return TKVARNAME;  }
 
 "/*"([^*]|\*+[^*/])*\*+"/"     {    return TKCOMMENT;  }
 
-{T}               {    return TKTYPE;  } 
-
 [ \t\n\f]					{    Addline(yytext[0]);   } 
-
-[a-zA-Z]+[ \n][a-zA-Z_]+[(](.*)[)][;]      {  return TKFUNCTION;} //function call
-
-[a-zA-Z]+[ \n][a-zA-Z_]+[ \n]*+[(](.*)[)][ \n]*[{]       { return TKFUNCTION; }
 
 "#"(.*)           { return TKINCLUDE; }
 
@@ -88,28 +99,36 @@ int yywrap(){
 int main() {
 
   ofstream outFile;
-  outFile.open("token.txt");
+  outFile.open("scanner_out.txt");
   int token = 0;
   token = yylex();
   while(token){
     switch (token) {
       case TKIGNORE:
-        //outFile << yytext;
         break;
       case TKVARNAME:
-        outFile << "TKVARNAME";
+        outFile << "A";
         break;
       case TKSTRINGVAL:
-        outFile << "TKSTRINGVAL";
+        outFile << "B";
         break;
       case TKTYPE:
-        outFile << "TKTYPE";
+        outFile << "C";
         break;
       case TKFUNCTION:
-        outFile << "TKFUNCTION";
+        outFile << "D";
         break;
       case TKVAL:
-        outFile << "TKVAL";
+        outFile << "E";
+        break;
+      case TKLOOP:
+        outFile << "F";
+        break;
+      case TKIF:
+        outFile << "G";
+        break;
+      case TKELSE:
+        outFile << "H";
         break;
 }
     token = yylex();

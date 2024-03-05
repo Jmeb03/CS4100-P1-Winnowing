@@ -1,1 +1,224 @@
-TKFUNCTIONTKFUNCTIONTKFUNCTIONTKFUNCTIONTKTYPETKVARNAMETKTYPETKVARNAMETKTYPETKVARNAMETKTYPETKVARNAMETKTYPETKVALTKTYPETKTYPETKVALTKVALTKFUNCTIONTKTYPETKVALTKTYPETKVALTKVALTKFUNCTIONTKVARNAMETKVARNAMETKVARNAMETKVALTKFUNCTIONTKTYPETKTYPETKVAL
+TKFUNCTION void get_data(
+TKTYPE int 
+*
+TKVARNAME num
+)
+;
+TKFUNCTION void dispensebills(
+TKTYPE int 
+TKVARNAME num
+,
+TKTYPE int 
+*
+TKVARNAME fifties1
+,
+TKTYPE int 
+*
+TKVARNAME twenties1
+,
+TKTYPE int 
+*
+TKVARNAME tens1
+)
+;
+TKFUNCTION void printbills(
+TKTYPE int 
+TKVARNAME num
+,
+TKTYPE int 
+TKVARNAME fifties1
+,
+TKTYPE int 
+TKVARNAME twenties1
+,
+TKTYPE int 
+TKVARNAME tens1
+)
+;
+TKFUNCTION int main(
+TKVARNAME void
+)
+{
+TKTYPE int 
+TKVARNAME amount
+;
+TKTYPE int 
+TKVARNAME tens
+;
+TKTYPE int 
+TKVARNAME twenties
+;
+TKTYPE int 
+TKVARNAME fifties
+;
+TKTYPE char 
+TKVARNAME ans 
+=
+TKVAL 'Y'
+;
+TKFUNCTION while (
+TKVARNAME ans 
+=
+=
+TKVAL 'Y' || ans == 'y'
+)
+{
+TKFUNCTION get_data(
+&
+TKVARNAME amount
+)
+;
+TKFUNCTION dispensebills(
+TKVARNAME amount
+,
+&
+TKVARNAME fifties
+,
+&
+TKVARNAME twenties
+,
+&
+TKVARNAME tens
+)
+;
+TKFUNCTION printbills(
+TKVARNAME amount
+,
+TKVARNAME fifties
+,
+TKVARNAME twenties
+,
+TKVARNAME tens
+)
+;
+TKFUNCTION printf(
+TKVAL "Another Transaction? Y/N"
+)
+;
+TKFUNCTION scanf(
+TKVAL "%c"
+,
+&
+TKVARNAME ans
+)
+;
+}
+TKFUNCTION return (
+TKVARNAME 0
+)
+;
+}
+TKTYPE void 
+TKFUNCTION get_data (
+TKTYPE int 
+*
+TKVARNAME num
+)
+{
+TKFUNCTION printf (
+TKVAL "Enter amount of money>"
+)
+;
+TKFUNCTION scanf(
+TKVAL "%d"
+,
+TKVARNAME num
+)
+;
+TKFUNCTION while (
+*
+TKVARNAME num 
+!
+=
+TKVARNAME modul 
+TKVARNAME 10
+)
+{
+TKFUNCTION printf(
+TKVAL "This machine dispenses only $50, $20, $10...\n Please Enter Again $"
+)
+;
+TKFUNCTION scanf(
+TKVAL "%d"
+,
+TKVARNAME num
+)
+;
+}
+}
+TKTYPE void 
+TKFUNCTION dispensebills (
+TKTYPE int 
+TKVARNAME num
+,
+TKTYPE int 
+*
+TKVARNAME fifties1
+,
+TKTYPE int 
+*
+TKVARNAME twenties1
+,
+TKTYPE int 
+*
+TKVARNAME tens1
+)
+{
+TKIF if (
+TKVARNAME num 
+>
+=
+TKVARNAME 50
+)
+*
+TKVARNAME fifties1
+>
+=
+TKVAL 1;
+TKELSE else if (
+TKVARNAME num 
+>
+=
+TKVARNAME 20
+)
+*
+TKVARNAME twenties
+>
+=
+TKVAL 1;
+TKVARNAME else
+    
+*
+TKVARNAME tens
+>
+=
+TKVAL 1;
+}
+TKTYPE void 
+TKFUNCTION printbills (
+TKVARNAME num
+,
+TKVARNAME fifties1
+,
+TKVARNAME twenties1
+,
+TKVARNAME tens1
+)
+{
+TKFUNCTION printf(
+TKVAL "the amount you are withdrawing-$%d"
+,
+TKVARNAME num
+)
+;
+TKFUNCTION printf(
+TKVAL "%d fifties %d twenties %d tens"
+,
+TKVARNAME fifties1
+,
+TKVARNAME twenties1
+,
+TKVARNAME tens1
+)
+;
+}

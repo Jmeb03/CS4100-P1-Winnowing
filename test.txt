@@ -18,6 +18,11 @@
 
 void get_data(int *requested);
 
+void get_number(int *num){
+	int x = 0;
+	string i = "Hello World!";
+}
+
 
 
 
